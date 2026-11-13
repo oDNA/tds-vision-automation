@@ -102,11 +102,20 @@ RESTART_ROI = (
 # VISUAL MAP REGISTRATION
 # ============================================================
 
-REFERENCE_IMAGE_EXACT = Path(
-    r"C:\TDSBot\test_output"
-    r"\recording_anchor_absolute"
-    r"\20260724_171710"
-    r"\03_FINAL_RECORDING_ANCHOR.png"
+REFERENCE_IMAGE_EXACT = (
+    Path(__file__).resolve().parent
+    / "assets"
+    / "registration_reference.png"
+)
+
+# Retain the exact original capture as a local-only fallback.
+# The preferred asset above is stable across clone locations.
+REFERENCE_IMAGE_LEGACY = (
+    Path(__file__).resolve().parent
+    / "test_output"
+    / "recording_anchor_absolute"
+    / "20260724_171710"
+    / "03_FINAL_RECORDING_ANCHOR.png"
 )
 
 REGISTRATION_PATCHES = [
@@ -2611,8 +2620,18 @@ def move_cursor_to_neutral() -> None:
 # ============================================================
 
 def find_reference_image() -> Path:
-    if REFERENCE_IMAGE_EXACT.exists():
+    if REFERENCE_IMAGE_EXACT.is_file():
         return REFERENCE_IMAGE_EXACT
+
+    if REFERENCE_IMAGE_LEGACY.is_file():
+        print(
+            "WARNING: using local legacy registration image."
+        )
+        print(
+            "Copy it to assets/registration_reference.png "
+            "to make the reference location portable."
+        )
+        return REFERENCE_IMAGE_LEGACY
 
     search_root = (
         BASE_DIR
@@ -2628,8 +2647,11 @@ def find_reference_image() -> Path:
 
     if not matches:
         raise FileNotFoundError(
-            "Could not find "
-            "03_FINAL_RECORDING_ANCHOR.png."
+            "Could not find a map registration reference. "
+            "Copy the original "
+            "03_FINAL_RECORDING_ANCHOR.png to "
+            f"{REFERENCE_IMAGE_EXACT}. "
+            "See assets/README.md."
         )
 
     fallback = max(
