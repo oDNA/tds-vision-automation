@@ -98,11 +98,11 @@ The script currently expects a 1920x1080 environment and checks the screen size 
 
 ### Important: registration reference
 
-The current working build was developed with a local terrain-reference screenshot used for map registration. That image is intentionally not included in this first public cleanup because the original development copy lives under the ignored `test_output/` tree.
+The production script now looks for `assets/registration_reference.png` relative to the repository, rather than requiring a hard-coded `C:\\TDSBot` path. To preserve compatibility with the development machine, it also supports the original timestamped image under `test_output/` and a last-resort search for locally captured anchors.
 
-Until the reference is moved into a public `assets/` path and the production script is updated accordingly, a fresh clone will need the same reference image available at the path expected by `tds_bot.py`.
+**The screenshot is not yet committed.** To run on a fresh clone, copy the original `03_FINAL_RECORDING_ANCHOR.png` into `assets/registration_reference.png` without modifying it. See [assets/README.md](assets/README.md) for the exact source path and details. Do not replace it with an arbitrary screenshot, since map alignment depends on the original camera/position reference.
 
-This is the main portability issue remaining in the repository.
+The path is portable, but a clean checkout still requires this binary asset before running.
 
 ## Repository contents
 
@@ -145,9 +145,9 @@ This progression is the main engineering motivation for the project: replacing f
 - Assumes 1920x1080 coordinates.
 - The production strategy is still partially timing-driven.
 - UI/theme/game updates can invalidate color thresholds or ROIs.
-- The terrain registration reference is not yet packaged portably.
+- The terrain registration reference uses a portable path, but the original image still needs to be supplied.
 - Calibration and experimental scripts have not yet been consolidated into a formal test suite.
 
 ## Project status
 
-The current `tds_bot.py` is the working build used during development. The next cleanup steps are primarily software-engineering improvements: packaging the registration asset, separating reusable modules, and organizing the diagnostic scripts without changing the verified gameplay behavior.
+The current `tds_bot.py` is the working build used during development. The next cleanup steps are primarily software-engineering improvements: adding the original registration image, separating reusable modules, and organizing the diagnostic scripts without changing the verified gameplay behavior.
