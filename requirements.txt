@@ -1,0 +1,11 @@
+dxcam==0.3.0
+numpy==2.5.1
+opencv-python==5.0.0.93
+pydirectinput
+
+# Used by OCR diagnostic scripts
+winrt-Windows.Globalization
+winrt-Windows.Graphics.Imaging
+winrt-Windows.Media.Ocr
+winrt-Windows.Storage
+winrt-Windows.Storage.Streams
